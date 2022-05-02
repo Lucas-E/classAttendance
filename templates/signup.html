@@ -1,0 +1,61 @@
+{%extends 'base.html'%}
+{%block title%}
+    Sign Up
+{%endblock%}
+{%block body%}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id='navbarContent'>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="{{url_for('main.index')}}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('auth.login')}}" class="nav-link">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('auth.signup')}}" class="nav-link">SignUp</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="bg-light rounded mx-auto col-md-8 p-5">
+                <h3 class="display-3 mb-3">
+                    Sign-Up!
+                </h3>
+                {%with messages = get_flashed_messages()%}
+                    {%if messages%}
+                        <div class="alert alert-danger">{{messages[0]}}</div>
+                    {%endif%}
+                {%endwith%}
+                <hr>
+                <form action="{{url_for('auth.signup')}}" method="POST">
+                    <div class="form-group">
+                        <label for="name">Inform your name</label>
+                        <input type="text" class="form-control" placeholder="Name" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Inform your email</label>
+                        <input type="text" class="form-control" placeholder="Email" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Enter your role</label>
+                        <select name="role" id="role" class="form-control">
+                            <option value="teacher">Teacher</option>
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Enter a password</label>
+                        <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+                    </div>
+                    <button class="btn btn-success btn-block">Sign-up!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{%endblock%}

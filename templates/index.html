@@ -1,0 +1,62 @@
+{%extends 'base.html'%}
+{%block title%}
+    Index
+{%endblock%}
+{%block body%}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {%if authenticated%}
+            <div class="collapse navbar-collapse" id='navbarContent'>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="{{url_for('main.index')}}" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('main.classes')}}" class="nav-link">Classes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('auth.logout')}}" class="nav-link">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        {%else%}
+            <div class="collapse navbar-collapse" id='navbarContent'>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="{{url_for('main.index')}}" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('auth.login')}}" class="nav-link">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url_for('auth.signup')}}" class="nav-link">SignUp</a>
+                    </li>
+                </ul>
+            </div>
+        {%endif%}  
+    </nav>
+    <div class="container-fluid">
+        <div class="row"> 
+            <div class="col-8 bg-light rounded mx-auto mt-5 p-5">
+                <h2 class="display-4">
+                    Projeto de Chamadas Escolares
+                </h2>
+                <hr>
+                <p class="font-weight-light">
+                    Projeto de Chamadas Escolares desenvolvido com Flask, HTML, CSS e SQL
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="bg-light rounded col-8 mx-auto mt-3 p-3">
+                <nav class="nav">
+                    <a href="" class="nav-link">Login</a>
+                    <a href="" class="nav-link">Sign Up</a>
+                    <a href="" class="nav-link">Sign Up as Teacher!</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+{%endblock%}

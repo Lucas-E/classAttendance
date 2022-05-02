@@ -1,0 +1,139 @@
+{%extends 'base.html'%}
+{%block title%}
+    Aulas
+{%endblock%}
+{%block body%}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id='navbarContent'>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="{{url_for('main.index')}}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('main.classes')}}" class="nav-link">Classes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('auth.logout')}}" class="nav-link">Logout</a>
+                </li>
+            </ul>
+            <div class="float-left mr-3 navbar-text">
+                Logged as {{user.name}}!
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        {%if user.role == 'teacher'%}
+            <div class="row">
+                <div class="bg-light p-5 mx-auto mt-5 rounded col-md-8">
+                    {%with message = get_flashed_messages()%}
+                        {%if message%}
+                            <div class="alert alert-success">
+                                {{message[0]}}
+                            </div>
+                        {%endif%}
+                    {%endwith%}
+                    <h2 class="display-3">
+                        Class Register Formulary
+                    </h2>
+                    <hr class="mb-5">
+                    <form action="/registerClass" method="POST" class="col-md-12">
+                        <div class="form-inline form-group ">
+                            <input type="text" class="form-control col-md-4" placeholder="Name" name="teacher" id="teacher"> 
+                            <select name="discipline" id="discipline" class="form-control col-md-4">
+                                <option value="math">Math</option>
+                                <option value="english">English</option>
+                            </select>
+                            <input type="text" class="form-control col-md-4" placeholder="Subject" id="subject" name="subject">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Present Students" name="present-students">
+                        </div>
+                        <div class="form-group form-inline d-flex justify-content-between">
+                            <input type="text" class="form-control col-md-6" placeholder="Home Activities" name="activities">
+                            <input type="date" class="ml-2 form-control col-md-4" name="date" id="date">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Students that delivered activities" name="delivered-activities" id="delivered-activities">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Class notes" name="notes" id="notes">
+                        </div>
+                        <button class="btn btn-block btn-primary">Register Class</button>
+                    </form>
+                </div>
+            </div>
+        {%endif%}
+        <div class="row mt-3">
+            <form action="{{url_for('auth.search')}}" class="col-md-8 mx-auto p-0" method="POST">
+                <div class="form-group">
+                    <div class="input-group">
+                        <select name="search" id="search" class="form-control">
+                            <option value="math">Math</option>
+                            <option value="english">English</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-success" type="submit">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {%for classElement in classes%}
+            <div class="row mt-3">
+                <div class="rounded col-md-8 bg-light mx-auto p-5">
+                    <div>
+                        <div class="font-weight-light d-flex justify-content-around mb-4">
+                            <h3>Teacher: {{classElement.teacher}}</h3>
+                            <h3>Discipline: {{classElement.discipline}}</h3>
+                            <h3>Subject: {{classElement.subject}}</h3>
+                        </div>
+                        <div class="font-weight-light">
+                            {{classElement.date}}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card mb-3">
+                        <div class="card-header font-weight-bold">
+                        Present Students 
+                        </div>
+                        <div class="card-body">
+                            {{classElement.presentStudents}}
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header font-weight-bold">
+                        Home Activities 
+                        </div>
+                        <div class="card-body">
+                            {{classElement.homeActivities}}
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header font-weight-bold">
+                        Delivered Activities 
+                        </div>
+                        <div class="card-body">
+                            {{classElement.activitiesDelivered}}
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header font-weight-bold">
+                        Class Notes 
+                        </div>
+                        <div class="card-body">
+                            {{classElement.notes}}
+                        </div>
+                    </div>
+                    {%if user.role == 'teacher'%}
+                        <form action='/deleteClass/{{classElement.id}}' method="POST">
+                            <button class="btn btn-block btn-danger mt-5">Delete</button>
+                        </form>
+                    {%endif%}
+                </div>
+            </div>
+        {%endfor%}
+    </div>
+{%endblock%}
